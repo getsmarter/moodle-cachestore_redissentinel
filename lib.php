@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->libdir.'/redis/sentinel.php');
+require_once('sentinel.php');
 
 /**
  * Redis Cache Store
