@@ -29,3 +29,7 @@ $plugin->requires   = 2017111300; // Requires 3.4. (contains PHP 7 code.)
 $plugin->maturity   = MATURITY_STABLE;
 $plugin->component  = 'cachestore_redissentinel';
 $plugin->release    = '3.0.4 (Build: 20160509)';
+
+function test_code_climate_rules_can_i_trigger_a_bad_climate_reaction() {
+    $a_very_very_very_very_very_very_very_very_very_long_variable = 99;
+}
