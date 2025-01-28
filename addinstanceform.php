@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -23,7 +24,7 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-
+global $CFG;
 require_once($CFG->dirroot.'/cache/forms.php');
 
 /**
@@ -40,21 +41,21 @@ class cachestore_redissentinel_addinstance_form extends cachestore_addinstance_f
         $form = $this->_form;
         global $siteenvironmentid;
 
-        $form->addElement('text', 'server', get_string('server', 'cachestore_redissentinel'), array('size' => 24));
+        $form->addElement('text', 'server', get_string('server', 'cachestore_redissentinel'), ['size' => 24]);
         $form->setType('server', PARAM_TEXT);
         $form->addHelpButton('server', 'server', 'cachestore_redissentinel');
         $form->addRule('server', get_string('required'), 'required');
         $form->setDefault('server', 'redis-local,redis-remote-a,redis-remote-b');
 
-        $form->addElement('text', 'master_group', get_string('master_group', 'cachestore_redissentinel'), array('size' => 24));
+        $form->addElement('text', 'master_group', get_string('master_group', 'cachestore_redissentinel'), ['size' => 24]);
         $form->setType('master_group', PARAM_TEXT);
         $form->addRule('master_group', get_string('required'), 'required');
         $form->setDefault('master_group', 'mymaster');
 
-        $form->addElement('text', 'prefix', get_string('prefix', 'cachestore_redissentinel'), array('size' => 16));
+        $form->addElement('text', 'prefix', get_string('prefix', 'cachestore_redissentinel'), ['size' => 16]);
         $form->setType('prefix', PARAM_TEXT); // We set to text but we have a rule to limit to alphanumext.
         $form->addHelpButton('prefix', 'prefix', 'cachestore_redissentinel');
-        $form->setDefault('prefix', isset($siteenvironmentid) ? $siteenvironmentid : '');
+        $form->setDefault('prefix', $siteenvironmentid ?? '');
         $form->addRule('prefix', get_string('prefixinvalid', 'cachestore_redissentinel'), 'regex', '#^[a-zA-Z0-9\-_]+$#');
     }
 }

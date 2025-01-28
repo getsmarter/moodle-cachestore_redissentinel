@@ -107,8 +107,8 @@ class cachestore_redissentinel extends cache_store implements cache_is_key_aware
      * @param array $configuration
      * @return int
      */
-    public static function get_supported_features(array $configuration = array()) {
-        return self::SUPPORTS_DATA_GUARANTEE + self::DEREFERENCES_OBJECTS + self::IS_SEARCHABLE;
+    public static function get_supported_features(array $configuration = []) {
+        return (self::SUPPORTS_DATA_GUARANTEE + self::DEREFERENCES_OBJECTS + self::IS_SEARCHABLE);
     }
 
     /**
@@ -117,8 +117,8 @@ class cachestore_redissentinel extends cache_store implements cache_is_key_aware
      * @param array $configuration
      * @return int
      */
-    public static function get_supported_modes(array $configuration = array()) {
-        return self::MODE_APPLICATION + self::MODE_SESSION;
+    public static function get_supported_modes(array $configuration = []) {
+        return (self::MODE_APPLICATION + self::MODE_SESSION);
     }
 
     /**
@@ -127,7 +127,7 @@ class cachestore_redissentinel extends cache_store implements cache_is_key_aware
      * @param string $name
      * @param array $configuration
      */
-    public function __construct($name, array $configuration = array()) {
+    public function __construct($name, array $configuration = []) {
         $this->name = $name;
 
         if (!array_key_exists('server', $configuration) || empty($configuration['server'])) {
@@ -309,7 +309,7 @@ class cachestore_redissentinel extends cache_store implements cache_is_key_aware
     public function delete_many(array $keys) {
         // Redis needs the hash as the first argument, so we have to put it at the start of the array.
         array_unshift($keys, $this->hash);
-        return call_user_func_array(array($this->redis, 'hDel'), $keys);
+        return call_user_func_array([$this->redis, 'hDel'], $keys);
     }
 
     /**
@@ -454,7 +454,11 @@ class cachestore_redissentinel extends cache_store implements cache_is_key_aware
      * @return array
      */
     public static function config_get_configuration_array($data) {
-        return array('server' => $data->server, 'prefix' => $data->prefix, 'master_group' => $data->master_group);
+        return [
+            'server' => $data->server,
+            'prefix' => $data->prefix,
+            'master_group' => $data->master_group
+        ];
     }
 
     /**
@@ -465,7 +469,7 @@ class cachestore_redissentinel extends cache_store implements cache_is_key_aware
      * @param array $config
      */
     public static function config_set_edit_form_data(moodleform $editform, array $config) {
-        $data = array();
+        $data = [];
         $data['server'] = $config['server'];
         $data['prefix'] = !empty($config['prefix']) ? $config['prefix'] : '';
         $data['master_group'] = !empty($config['master_group']) ? $config['master_group'] : 'mymaster';
@@ -505,9 +509,10 @@ class cachestore_redissentinel extends cache_store implements cache_is_key_aware
             throw new moodle_exception('TEST_CACHESTORE_REDIS_TESTSERVERS not configured, unable to create test configuration');
         }
 
-        return ['server' => TEST_CACHESTORE_REDIS_TESTSERVERS,
-                'prefix' => $DB->get_prefix(),
-        ];
+        return [
+            'server' => TEST_CACHESTORE_REDIS_TESTSERVERS,
+            'prefix' => $DB->get_prefix(),
+            ];
     }
 
     /**
