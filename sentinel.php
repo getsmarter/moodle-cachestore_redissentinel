@@ -1,20 +1,21 @@
 <?php
+declare(strict_types=1);
 
 class sentinel {
 
-    private $sentinels = array();
+    private array $sentinels;
     
-    public $connecttimeout = 1;
-    public $readtimeout = 1;
-    public $persistent = true;
+    public int $connecttimeout = 1;
+    public int $readtimeout = 1;
+    public bool $persistent = true;
 
-    private $flags;
+    private int $flags;
 
-    private $connected;
+    private bool $connected;
 
     private $socket;
 
-    private $pingonconnect = false;
+    private bool $pingonconnect = false;
 
     public function __construct($sentinels) {
 
@@ -32,7 +33,8 @@ class sentinel {
         }
     }
 
-    public function connecttopool() {
+    public function connecttopool(): bool
+    {
         if ($this->connected) {
             return true;
         }
@@ -47,7 +49,8 @@ class sentinel {
     }
 
 
-    private function connect($sentinel) {
+    private function connect($sentinel): bool
+    {
 
         if ($this->persistent) {
             $this->socket = @stream_socket_client($sentinel, $errorno, $errstr, $this->connecttimeout, STREAM_CLIENT_CONNECT | STREAM_CLIENT_PERSISTENT);
@@ -119,7 +122,7 @@ class sentinel {
         for ($written = 0; $written < $cmdlen; $written += $lastwrite) {
             $lastwrite = fwrite($this->socket, substr($cmd, $written));
 
-            if ($lastwrite === false || $lastwrite == 0) {
+            if ($lastwrite == 0) {
                 $this->connected = false;
                 throw new \Exception('Failed to write command to stream');
             }
@@ -141,9 +144,8 @@ class sentinel {
         // Error response
         case '-':
             throw new \Exception('Error response received: '.$resp);
-            break;
 
-        // In-line response
+            // In-line response
         case '+':
             $response = substr($resp, 1);
             return(substr($resp, 1));
@@ -159,7 +161,7 @@ class sentinel {
 
         // Int response
         case ':':
-            return ((int)substr($reply,1));
+            return ((int)substr($resp,1));
 
         // Multi line response
         case '*':

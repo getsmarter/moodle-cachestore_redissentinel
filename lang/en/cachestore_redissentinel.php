@@ -24,17 +24,17 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['pluginname'] = 'Redis Sentinel';
-$string['prefix'] = 'Key prefix';
-$string['prefix_help'] = 'This prefix is used for all key names on the Redis server.
+$string['pluginname']       = 'Redis Sentinel';
+$string['prefix']           = 'Key prefix';
+$string['prefix_help']      = 'This prefix is used for all key names on the Redis server.
 * If you only have one Moodle instance using this server, you can leave this value default.
 * Due to key length restrictions, a maximum of 5 characters is permitted.';
-$string['prefixinvalid'] = 'Invalid prefix. You can only use a-z A-Z 0-9-_.';
-$string['test_server'] = 'Test server';
+$string['prefixinvalid']    = 'Invalid prefix. You can only use a-z A-Z 0-9-_.';
+$string['test_server']      = 'Test server';
 $string['test_server_desc'] = 'Redis server to use for testing.';
-$string['server'] = 'Sentinel Servers';
-$string['server_help'] = 'Comma delimited list of sentinel servers';
-$string['master_group'] = 'Sentinel Group';
+$string['server']           = 'Sentinel Servers';
+$string['server_help']      = 'Comma delimited list of sentinel servers';
+$string['master_group']     = 'Sentinel Group';
 $string['privacy:privacy:metadata:redissentinel'] = '';
-$string['privacy:metadata:redissentinel'] = 'The Redis cachestore plugin stores data briefly as part of its caching functionality. This data is stored on an Redis server where data is regularly removed.';
-$string['privacy:metadata:redissentinel:data'] = 'The various data stored in the cache';
+$string['privacy:metadata:redissentinel']         = 'The Redis cachestore plugin stores data briefly as part of its caching functionality. This data is stored on an Redis server where data is regularly removed.';
+$string['privacy:metadata:redissentinel:data']    = 'The various data stored in the cache';

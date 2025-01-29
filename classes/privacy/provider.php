@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -24,11 +25,13 @@
 
 namespace cachestore_redissentinel\privacy;
 
+use context;
 use core_privacy\local\metadata\collection;
 use core_privacy\local\request\contextlist;
 use core_privacy\local\request\approved_contextlist;
-use \core_privacy\local\request\userlist;
-use \core_privacy\local\request\approved_userlist;
+use core_privacy\local\request\core_userlist_provider;
+use core_privacy\local\request\userlist;
+use core_privacy\local\request\approved_userlist;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -40,7 +43,7 @@ defined('MOODLE_INTERNAL') || die();
  */
 class provider implements
     \core_privacy\local\metadata\provider,
-    \core_privacy\local\request\core_userlist_provider,
+    core_userlist_provider,
     \core_privacy\local\request\plugin\provider {
 
     /**
@@ -50,9 +53,11 @@ class provider implements
      * @return  collection A listing of user data stored through this system.
      */
     public static function get_metadata(collection $collection) : collection {
-        $collection->add_external_location_link('redis', [
-            'data' => 'privacy:metadata:redissentinel:data',
-        ], 'privacy:metadata:redissentinel');
+        $collection->add_external_location_link(
+            'redis',
+            ['data' => 'privacy:metadata:redissentinel:data',],
+            'privacy:metadata:redissentinel'
+        );
         return $collection;
     }
 
@@ -85,9 +90,9 @@ class provider implements
     /**
      * Delete all use data which matches the specified deletion_criteria.
      *
-     * @param \context $context A user context.
+     * @param context $context A user context.
      */
-    public static function delete_data_for_all_users_in_context(\context $context) {
+    public static function delete_data_for_all_users_in_context(context $context) {
     }
 
     /**
